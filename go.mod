@@ -1,3 +1,3 @@
-module Monkey_Go
+module monkey
 
 go 1.16
