@@ -42,7 +42,7 @@ func (p *Program) String() string {
 	return out.String()
 }
 
-/* ---------- let ---------- */
+/* ---------- let statement ---------- */
 type LetStatement struct {
 	Token token.Token
 	Name  *Identifier
@@ -63,7 +63,7 @@ func (ls *LetStatement) String() string {
 	return out.String()
 }
 
-/* ---------- return ---------- */
+/* ---------- return statement ---------- */
 type ReturnStatement struct {
 	Token       token.Token
 	ReturnValue Expression
@@ -83,7 +83,7 @@ func (rs *ReturnStatement) String() string {
 	return out.String()
 }
 
-/* ---------- expression ---------- */
+/* ---------- expression statement ---------- */
 type ExpressionStatement struct {
 	Token      token.Token
 	Expression Expression
@@ -96,6 +96,23 @@ func (es *ExpressionStatement) String() string {
 		return es.Expression.String()
 	}
 	return ""
+}
+
+/* ---------- block statement ---------- */
+type BlockStatement struct {
+	Token      token.Token
+	Statements []Statement
+}
+
+func (bs *BlockStatement) statementNode()       {}
+func (bs *BlockStatement) TokenLiteral() string { return bs.Token.Literal }
+func (bs *BlockStatement) String() string {
+	var out bytes.Buffer
+
+	for _, s := range bs.Statements {
+		out.WriteString(s.String())
+	}
+	return out.String()
 }
 
 /* ---------- identifier ---------- */
@@ -160,6 +177,7 @@ func (ie *InfixExpression) String() string {
 	return out.String()
 }
 
+/* ---------- boolean ---------- */
 type Boolean struct {
 	Token token.Token
 	Value bool
@@ -168,3 +186,29 @@ type Boolean struct {
 func (b *Boolean) expressionNode()      {}
 func (b *Boolean) TokenLiteral() string { return b.Token.Literal }
 func (b *Boolean) String() string       { return b.Token.Literal }
+
+/* ---------- if ---------- */
+type IfExpression struct {
+	Token       token.Token
+	Condition   Expression
+	Consequence *BlockStatement
+	Alternative *BlockStatement
+}
+
+func (ie *IfExpression) expressionNode()      {}
+func (ie *IfExpression) TokenLiteral() string { return ie.Token.Literal }
+func (ie *IfExpression) String() string {
+	var out bytes.Buffer
+
+	out.WriteString("if")
+	out.WriteString(ie.Condition.String())
+	out.WriteString(" ")
+	out.WriteString(ie.Consequence.String())
+
+	if ie.Alternative != nil {
+		out.WriteString("else ")
+		out.WriteString(ie.Alternative.String())
+	}
+
+	return out.String()
+}
