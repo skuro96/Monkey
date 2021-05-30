@@ -96,7 +96,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			return args[0]
 		}
 
-		return applyFunction(function, args)
+		return applyFunction(function, args, node.Function.String())
 	}
 	return nil
 }
@@ -267,10 +267,17 @@ func evalExpressions(exps []ast.Expression, env *object.Environment) []object.Ob
 	return result
 }
 
-func applyFunction(fn object.Object, args []object.Object) object.Object {
+func applyFunction(fn object.Object, args []object.Object, name string) object.Object {
 	function, ok := fn.(*object.Function)
 	if !ok {
 		return newError("not a function: %s", fn.Type())
+	}
+
+	if len(function.Parameters) > len(args) {
+		return newError("too few arguments in call to '%s'", name)
+	}
+	if len(function.Parameters) < len(args) {
+		return newError("too many arguments in call to '%s'", name)
 	}
 
 	extendedEnv := extendFunctionEnv(function, args)
