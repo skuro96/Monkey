@@ -277,24 +277,11 @@ func evalExpressions(exps []ast.Expression, env *object.Environment) []object.Ob
 }
 
 func applyFunction(fn object.Object, args []object.Object, name string) object.Object {
-	// function, ok := fn.(*object.Function)
-	// if !ok {
-	// 	return newError("not a function: %s", fn.Type())
-	// }
-
-	// if len(function.Parameters) > len(args) {
-	// 	return newError("too few arguments in call to '%s'", name)
-	// }
-	// if len(function.Parameters) < len(args) {
-	// 	return newError("too many arguments in call to '%s'", name)
-	// }
-
-	// extendedEnv := extendFunctionEnv(function, args)
-	// evaluated := Eval(function.Body, extendedEnv)
-	// return unwrapReturnValue(evaluated)
-
 	switch fn := fn.(type) {
 	case *object.Function:
+		if len(fn.Parameters) != len(args) {
+			return newError("wrong number of arguments (%d for %d)", len(args), len(fn.Parameters))
+		}
 		extendedEnv := extendFunctionEnv(fn, args)
 		evaluated := Eval(fn.Body, extendedEnv)
 		return unwrapReturnValue(evaluated)
