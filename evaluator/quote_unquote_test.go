@@ -63,7 +63,7 @@ func TestQuoteUnquote(t *testing.T) {
 			`(8 + 8)`,
 		},
 		{
-			`quote(unquote(4 + 4) + 8))`,
+			`quote(unquote(4 + 4) + 8)`,
 			`(8 + 8)`,
 		},
 	}
