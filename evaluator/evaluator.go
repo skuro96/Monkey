@@ -249,15 +249,16 @@ func evalIntegerInfixExpression(operator string, left, right object.Object) obje
 
 func evalIfExpression(ie *ast.IfExpression, env *object.Environment) object.Object {
 	condition := Eval(ie.Condition, env)
+	newEnv := object.NewEnclosedEnvironment(env)
 
 	if isError(condition) {
 		return condition
 	}
 
 	if isTruthy(condition) {
-		return Eval(ie.Consequence, env)
+		return Eval(ie.Consequence, newEnv)
 	} else if ie.Alternative != nil {
-		return Eval(ie.Alternative, env)
+		return Eval(ie.Alternative, newEnv)
 	} else {
 		return NULL
 	}
