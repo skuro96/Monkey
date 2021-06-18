@@ -100,7 +100,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			return args[0]
 		}
 
-		return applyFunction(function, args, node.Function.String())
+		return applyFunction(function, args)
 
 	case *ast.StringLiteral:
 		return &object.String{Value: node.Value}
@@ -301,7 +301,7 @@ func evalExpressions(exps []ast.Expression, env *object.Environment) []object.Ob
 	return result
 }
 
-func applyFunction(fn object.Object, args []object.Object, name string) object.Object {
+func applyFunction(fn object.Object, args []object.Object) object.Object {
 	switch fn := fn.(type) {
 	case *object.Function:
 		if len(fn.Parameters) != len(args) {
