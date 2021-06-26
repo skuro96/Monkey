@@ -131,6 +131,8 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseReturnStatement()
 	case token.WHILE:
 		return p.parseWhileStatement()
+	case token.BREAK:
+		return p.parseBreakStatement()
 	default:
 		return p.parseExpressionStatement()
 	}
@@ -543,4 +545,11 @@ func (p *Parser) parseWhileStatement() *ast.WhileStatement {
 	stmt.Block = p.parseBlockStatement()
 
 	return stmt
+}
+
+func (p *Parser) parseBreakStatement() *ast.BreakStatement {
+	if !p.expectPeek(token.SEMICOLON) {
+		return nil
+	}
+	return &ast.BreakStatement{Token: p.curToken}
 }

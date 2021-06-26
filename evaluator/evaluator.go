@@ -10,6 +10,7 @@ var (
 	NULL  = &object.Null{}
 	TRUE  = &object.Boolean{Value: true}
 	FALSE = &object.Boolean{Value: false}
+	BREAK = &object.Break{}
 )
 
 func newError(format string, a ...interface{}) *object.Error {
@@ -142,6 +143,9 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.WhileStatement:
 		return evalWhileStatement(node, env)
+
+	case *ast.BreakStatement:
+		return BREAK
 	}
 	return nil
 }
@@ -168,7 +172,7 @@ func evalBlockStatement(block *ast.BlockStatement, env *object.Environment) obje
 	for _, statement := range block.Statements {
 		result = Eval(statement, env)
 
-		if result != nil && result.Type() == object.RETURN_VALUE_OBJ {
+		if result != nil && (result.Type() == object.RETURN_VALUE_OBJ || result.Type() == object.BREAK_OBJ) {
 			return result
 		}
 		if result != nil {
@@ -443,6 +447,9 @@ func evalWhileStatement(stmt *ast.WhileStatement, env *object.Environment) objec
 		}
 		if block != nil && block.Type() == object.RETURN_VALUE_OBJ {
 			return block
+		}
+		if block != nil && block.Type() == object.BREAK_OBJ {
+			break
 		}
 	}
 	return nil

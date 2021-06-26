@@ -24,6 +24,7 @@ const (
 	HASH_OBJ         = "HASH"
 	QUOTE_OBJ        = "QUOTE"
 	MACRO_OBJ        = "MACRO"
+	BREAK_OBJ        = "BREAK"
 )
 
 type Object interface {
@@ -227,3 +228,8 @@ func (m *Macro) Inspect() string {
 
 	return out.String()
 }
+
+type Break struct{}
+
+func (b *Break) Type() ObjectType { return BREAK_OBJ }
+func (b *Break) Inspect() string  { return "break" }
