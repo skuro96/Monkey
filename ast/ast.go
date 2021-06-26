@@ -389,3 +389,21 @@ func (as *AssignLiteral) String() string {
 
 	return out.String()
 }
+
+type WhileStatement struct {
+	Token     token.Token
+	Condition Expression
+	Block     *BlockStatement
+}
+
+func (ws *WhileStatement) statementNode()       {}
+func (ws *WhileStatement) TokenLiteral() string { return ws.Token.Literal }
+func (ws *WhileStatement) String() string {
+	var out bytes.Buffer
+
+	out.WriteString(ws.TokenLiteral() + " (" + ws.Condition.String() + ") {")
+	out.WriteString(ws.Block.String())
+	out.WriteString("}")
+
+	return out.String()
+}
