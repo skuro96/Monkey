@@ -125,6 +125,21 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
+
+	case *ast.AssignLiteral:
+		_, ok := env.Get(node.Name.Value)
+		if !ok {
+			return newError("identifier does not exist: " + node.Name.Value)
+		}
+
+		newVal := Eval(node.Value, env)
+		if isError(newVal) {
+			return newVal
+		}
+
+		env.Set(node.Name.Value, newVal)
+		return nil
+
 	}
 	return nil
 }

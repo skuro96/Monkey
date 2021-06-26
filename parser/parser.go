@@ -11,6 +11,7 @@ import (
 const (
 	_ int = iota
 	LOWEST
+	ASSIGN
 	EQUALS
 	LESSGREATER
 	SUM
@@ -31,6 +32,7 @@ var precedences = map[token.TokenType]int{
 	token.ASTERISK: PRODUCT,
 	token.LPAREN:   CALL,
 	token.LBRACKET: INDEX,
+	token.ASSIGN:   ASSIGN,
 }
 
 type (
@@ -89,6 +91,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
+	p.registerInfix(token.ASSIGN, p.parseAssignLiteral)
 
 	// curTokenとpeekTokenにトークンをセット
 	p.nextToken()
@@ -503,4 +506,19 @@ func (p *Parser) parseMacroLiteral() ast.Expression {
 	lit.Body = p.parseBlockStatement()
 
 	return lit
+}
+
+func (p *Parser) parseAssignLiteral(left ast.Expression) ast.Expression {
+	ident, ok := left.(*ast.Identifier)
+	if !ok {
+		return nil
+	}
+
+	assign := &ast.AssignLiteral{Token: p.curToken, Name: ident}
+
+	p.nextToken()
+
+	assign.Value = p.parseExpression(LOWEST)
+
+	return assign
 }
