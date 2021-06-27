@@ -16,7 +16,7 @@ let fizzbuzz = fn(n) {
 			puts(i);
 		}
 
-		++i;
+		i += 1;
 	}
 }
 
