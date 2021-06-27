@@ -134,7 +134,9 @@ func (p *Parser) parseStatement() ast.Statement {
 	case token.BREAK:
 		return p.parseBreakStatement()
 	case token.INC:
-		return p.parseIncrementStatement()
+		return p.parseIncDecStatement()
+	case token.DEC:
+		return p.parseIncDecStatement()
 	default:
 		return p.parseExpressionStatement()
 	}
@@ -556,7 +558,7 @@ func (p *Parser) parseBreakStatement() *ast.BreakStatement {
 	return &ast.BreakStatement{Token: p.curToken}
 }
 
-func (p *Parser) parseIncrementStatement() *ast.IncrementStatement {
+func (p *Parser) parseIncDecStatement() *ast.IncDecStatement {
 	tok := p.curToken
 
 	if !p.expectPeek(token.IDENT) {
@@ -571,5 +573,5 @@ func (p *Parser) parseIncrementStatement() *ast.IncrementStatement {
 	if p.peekTokenIs(token.SEMICOLON) {
 		p.nextToken()
 	}
-	return &ast.IncrementStatement{Token: tok, Ident: ident}
+	return &ast.IncDecStatement{Token: tok, Ident: ident}
 }

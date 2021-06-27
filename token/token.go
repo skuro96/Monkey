@@ -25,6 +25,7 @@ const (
 	SLASH    = "/"
 
 	INC = "++"
+	DEC = "--"
 
 	LT     = "<"
 	GT     = ">"
