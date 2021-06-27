@@ -148,13 +148,12 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 		return BREAK
 
 	case *ast.IncDecStatement:
-		t := node.TokenLiteral()
 		return Eval(
 			&ast.AssignLiteral{
 				Name: node.Ident,
 				Value: &ast.InfixExpression{
 					Left:     node.Ident,
-					Operator: t[:1],
+					Operator: node.TokenLiteral()[:1],
 					Right:    &ast.IntegerLiteral{Value: 1}}},
 			env)
 	}
