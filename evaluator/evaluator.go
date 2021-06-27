@@ -156,6 +156,20 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 					Operator: node.TokenLiteral()[:1],
 					Right:    &ast.IntegerLiteral{Value: 1}}},
 			env)
+
+	case *ast.AssignOperatorExpression:
+		return Eval(
+			&ast.AssignLiteral{
+				Name: node.Left,
+				Value: &ast.InfixExpression{
+					Left:     node.Left,
+					Operator: node.TokenLiteral()[:1],
+					Right:    node.Right,
+				},
+			},
+			env,
+		)
+
 	}
 	return nil
 }

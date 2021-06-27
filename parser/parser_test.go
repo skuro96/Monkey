@@ -1034,21 +1034,3 @@ func TestWhileStatement(t *testing.T) {
 		t.Fatalf("len(stmt.Block.Statements) != 2. got=%d", len(stmt.Block.Statements))
 	}
 }
-
-// func TestIncrementExpression(t *testing.T) {
-// 	input := `
-// 	let a = 0;
-// 	++a;
-// 	`
-
-// 	l := lexer.New(input)
-// 	p := New(l)
-// 	program := p.ParseProgram()
-// 	checkParserErrors(t, p)
-
-// 	if len(program.Statements) != 2 {
-// 		t.Fatalf("len(program.Statements) != 2, got=%d", len(program.Statements))
-// 	}
-
-// 	stmt, ok := program.Statements[1].(*ast.)
-// }

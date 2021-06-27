@@ -22,18 +22,19 @@ const (
 )
 
 var precedences = map[token.TokenType]int{
-	token.EQ:       EQUALS,
-	token.NOT_EQ:   EQUALS,
-	token.LT:       LESSGREATER,
-	token.GT:       LESSGREATER,
-	token.PLUS:     SUM,
-	token.MINUS:    SUM,
-	token.SLASH:    PRODUCT,
-	token.ASTERISK: PRODUCT,
-	token.MOD:      PRODUCT,
-	token.LPAREN:   CALL,
-	token.LBRACKET: INDEX,
-	token.ASSIGN:   ASSIGN,
+	token.EQ:         EQUALS,
+	token.NOT_EQ:     EQUALS,
+	token.LT:         LESSGREATER,
+	token.GT:         LESSGREATER,
+	token.PLUS:       SUM,
+	token.MINUS:      SUM,
+	token.SLASH:      PRODUCT,
+	token.ASTERISK:   PRODUCT,
+	token.MOD:        PRODUCT,
+	token.LPAREN:     CALL,
+	token.LBRACKET:   INDEX,
+	token.ASSIGN:     ASSIGN,
+	token.ASSIGN_ADD: ASSIGN,
 }
 
 type (
@@ -94,6 +95,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
 	p.registerInfix(token.ASSIGN, p.parseAssignLiteral)
+	p.registerInfix(token.ASSIGN_ADD, p.parseAssignOperationStatement)
 
 	// curTokenとpeekTokenにトークンをセット
 	p.nextToken()
@@ -576,4 +578,18 @@ func (p *Parser) parseIncDecStatement() *ast.IncDecStatement {
 		p.nextToken()
 	}
 	return &ast.IncDecStatement{Token: tok, Ident: ident}
+}
+
+func (p *Parser) parseAssignOperationStatement(left ast.Expression) ast.Expression {
+	ident, ok := left.(*ast.Identifier)
+	if !ok {
+		return nil
+	}
+
+	operator := p.curToken
+	p.nextToken()
+
+	right := p.parseExpression(LOWEST)
+
+	return &ast.AssignOperatorExpression{Left: ident, Operator: operator, Right: right}
 }

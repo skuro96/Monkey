@@ -424,3 +424,15 @@ type IncDecStatement struct {
 func (is *IncDecStatement) statementNode()       {}
 func (is *IncDecStatement) TokenLiteral() string { return is.Token.Literal }
 func (is *IncDecStatement) String() string       { return is.Token.Literal }
+
+type AssignOperatorExpression struct {
+	Left     *Identifier
+	Operator token.Token
+	Right    Expression
+}
+
+func (aoe *AssignOperatorExpression) expressionNode()      {}
+func (aoe *AssignOperatorExpression) TokenLiteral() string { return aoe.Operator.Literal }
+func (aoe *AssignOperatorExpression) String() string {
+	return aoe.Left.String() + aoe.Operator.Literal + aoe.Right.String()
+}
