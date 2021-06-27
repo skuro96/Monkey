@@ -415,3 +415,12 @@ type BreakStatement struct {
 func (bs *BreakStatement) statementNode()       {}
 func (bs *BreakStatement) TokenLiteral() string { return bs.Token.Literal }
 func (bs *BreakStatement) String() string       { return bs.Token.Literal }
+
+type IncrementStatement struct {
+	Token token.Token
+	Ident *Identifier
+}
+
+func (is *IncrementStatement) statementNode()       {}
+func (is *IncrementStatement) TokenLiteral() string { return is.Token.Literal }
+func (is *IncrementStatement) String() string       { return is.Token.Literal }

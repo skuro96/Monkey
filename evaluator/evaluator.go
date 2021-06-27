@@ -146,6 +146,16 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.BreakStatement:
 		return BREAK
+
+	case *ast.IncrementStatement:
+		return Eval(
+			&ast.AssignLiteral{
+				Name: node.Ident,
+				Value: &ast.InfixExpression{
+					Left:     node.Ident,
+					Operator: "+",
+					Right:    &ast.IntegerLiteral{Value: 1}}},
+			env)
 	}
 	return nil
 }
