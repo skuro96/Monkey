@@ -36,6 +36,7 @@ macro(x, y) { x + y; };
 --ten;
 
 ten += 10;
+ten -= 10;
 `
 
 	tests := []struct {
@@ -154,7 +155,12 @@ ten += 10;
 		{token.SEMICOLON, ";"},
 
 		{token.IDENT, "ten"},
-		{token.ASSIGN_ADD, "+="},
+		{token.ASSIGN_PLUS, "+="},
+		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+
+		{token.IDENT, "ten"},
+		{token.ASSIGN_MINUS, "-="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
 

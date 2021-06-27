@@ -25,9 +25,10 @@ const (
 	SLASH    = "/"
 	MOD      = "%"
 
-	INC        = "++"
-	DEC        = "--"
-	ASSIGN_ADD = "+="
+	INC          = "++"
+	DEC          = "--"
+	ASSIGN_PLUS  = "+="
+	ASSIGN_MINUS = "-="
 
 	LT     = "<"
 	GT     = ">"
