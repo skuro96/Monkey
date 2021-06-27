@@ -155,12 +155,12 @@ ten -= 10;
 		{token.SEMICOLON, ";"},
 
 		{token.IDENT, "ten"},
-		{token.ASSIGN_PLUS, "+="},
+		{token.ASSIGN_ADD, "+="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
 
 		{token.IDENT, "ten"},
-		{token.ASSIGN_MINUS, "-="},
+		{token.ASSIGN_SUB, "-="},
 		{token.INT, "10"},
 		{token.SEMICOLON, ";"},
 

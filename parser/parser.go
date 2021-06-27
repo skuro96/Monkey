@@ -22,20 +22,23 @@ const (
 )
 
 var precedences = map[token.TokenType]int{
-	token.EQ:           EQUALS,
-	token.NOT_EQ:       EQUALS,
-	token.LT:           LESSGREATER,
-	token.GT:           LESSGREATER,
-	token.PLUS:         SUM,
-	token.MINUS:        SUM,
-	token.SLASH:        PRODUCT,
-	token.ASTERISK:     PRODUCT,
-	token.MOD:          PRODUCT,
-	token.LPAREN:       CALL,
-	token.LBRACKET:     INDEX,
-	token.ASSIGN:       ASSIGN,
-	token.ASSIGN_PLUS:  ASSIGN,
-	token.ASSIGN_MINUS: ASSIGN,
+	token.EQ:         EQUALS,
+	token.NOT_EQ:     EQUALS,
+	token.LT:         LESSGREATER,
+	token.GT:         LESSGREATER,
+	token.PLUS:       SUM,
+	token.MINUS:      SUM,
+	token.SLASH:      PRODUCT,
+	token.ASTERISK:   PRODUCT,
+	token.MOD:        PRODUCT,
+	token.LPAREN:     CALL,
+	token.LBRACKET:   INDEX,
+	token.ASSIGN:     ASSIGN,
+	token.ASSIGN_ADD: ASSIGN,
+	token.ASSIGN_SUB: ASSIGN,
+	token.ASSIGN_MUL: ASSIGN,
+	token.ASSIGN_DIV: ASSIGN,
+	token.ASSIGN_MOD: ASSIGN,
 }
 
 type (
@@ -96,8 +99,11 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
 	p.registerInfix(token.ASSIGN, p.parseAssignLiteral)
-	p.registerInfix(token.ASSIGN_PLUS, p.parseAssignOperationStatement)
-	p.registerInfix(token.ASSIGN_MINUS, p.parseAssignOperationStatement)
+	p.registerInfix(token.ASSIGN_ADD, p.parseAssignOperationStatement)
+	p.registerInfix(token.ASSIGN_SUB, p.parseAssignOperationStatement)
+	p.registerInfix(token.ASSIGN_MUL, p.parseAssignOperationStatement)
+	p.registerInfix(token.ASSIGN_DIV, p.parseAssignOperationStatement)
+	p.registerInfix(token.ASSIGN_MOD, p.parseAssignOperationStatement)
 
 	// curTokenとpeekTokenにトークンをセット
 	p.nextToken()

@@ -49,7 +49,7 @@ func (l *Lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.ASSIGN_PLUS, Literal: literal}
+			tok = token.Token{Type: token.ASSIGN_ADD, Literal: literal}
 		} else {
 			tok = newToken(token.PLUS, l.ch)
 		}
@@ -63,16 +63,37 @@ func (l *Lexer) NextToken() token.Token {
 			ch := l.ch
 			l.readChar()
 			literal := string(ch) + string(l.ch)
-			tok = token.Token{Type: token.ASSIGN_MINUS, Literal: literal}
+			tok = token.Token{Type: token.ASSIGN_SUB, Literal: literal}
 		} else {
 			tok = newToken(token.MINUS, l.ch)
 		}
 	case '/':
-		tok = newToken(token.SLASH, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.ASSIGN_DIV, Literal: literal}
+		} else {
+			tok = newToken(token.SLASH, l.ch)
+		}
 	case '*':
-		tok = newToken(token.ASTERISK, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.ASSIGN_MUL, Literal: literal}
+		} else {
+			tok = newToken(token.ASTERISK, l.ch)
+		}
 	case '%':
-		tok = newToken(token.MOD, l.ch)
+		if l.peekChar() == '=' {
+			ch := l.ch
+			l.readChar()
+			literal := string(ch) + string(l.ch)
+			tok = token.Token{Type: token.ASSIGN_MOD, Literal: literal}
+		} else {
+			tok = newToken(token.MOD, l.ch)
+		}
 	case '<':
 		tok = newToken(token.LT, l.ch)
 	case '>':
