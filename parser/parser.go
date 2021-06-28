@@ -12,6 +12,8 @@ const (
 	_ int = iota
 	LOWEST
 	ASSIGN
+	OR
+	AND
 	EQUALS
 	LESSGREATER
 	SUM
@@ -39,6 +41,8 @@ var precedences = map[token.TokenType]int{
 	token.ASSIGN_MUL: ASSIGN,
 	token.ASSIGN_DIV: ASSIGN,
 	token.ASSIGN_MOD: ASSIGN,
+	token.AND:        AND,
+	token.OR:         OR,
 }
 
 type (
@@ -104,6 +108,8 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.ASSIGN_MUL, p.parseAssignOperationStatement)
 	p.registerInfix(token.ASSIGN_DIV, p.parseAssignOperationStatement)
 	p.registerInfix(token.ASSIGN_MOD, p.parseAssignOperationStatement)
+	p.registerInfix(token.AND, p.parseInfixExpression)
+	p.registerInfix(token.OR, p.parseInfixExpression)
 
 	// curTokenとpeekTokenにトークンをセット
 	p.nextToken()

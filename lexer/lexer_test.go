@@ -37,6 +37,9 @@ macro(x, y) { x + y; };
 
 ten += 10;
 ten -= 10;
+
+true && false;
+true || false;
 `
 
 	tests := []struct {
@@ -162,6 +165,16 @@ ten -= 10;
 		{token.IDENT, "ten"},
 		{token.ASSIGN_SUB, "-="},
 		{token.INT, "10"},
+		{token.SEMICOLON, ";"},
+
+		{token.TRUE, "true"},
+		{token.AND, "&&"},
+		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+
+		{token.TRUE, "true"},
+		{token.OR, "||"},
+		{token.FALSE, "false"},
 		{token.SEMICOLON, ";"},
 
 		{token.EOF, ""},

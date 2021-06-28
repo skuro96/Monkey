@@ -37,6 +37,8 @@ const (
 	GT     = ">"
 	EQ     = "=="
 	NOT_EQ = "!="
+	AND    = "&&"
+	OR     = "||"
 
 	// デリミタ
 	COMMA     = ","
