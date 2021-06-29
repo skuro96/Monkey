@@ -151,6 +151,8 @@ func (p *Parser) parseStatement() ast.Statement {
 		return p.parseWhileStatement()
 	case token.BREAK:
 		return p.parseBreakStatement()
+	case token.CONTINUE:
+		return p.parseContinueStatement()
 	case token.INC:
 		return p.parseIncDecStatement()
 	case token.DEC:
@@ -574,6 +576,13 @@ func (p *Parser) parseBreakStatement() *ast.BreakStatement {
 		return nil
 	}
 	return &ast.BreakStatement{Token: p.curToken}
+}
+
+func (p *Parser) parseContinueStatement() *ast.ContinueStatement {
+	if !p.expectPeek(token.SEMICOLON) {
+		return nil
+	}
+	return &ast.ContinueStatement{Token: p.curToken}
 }
 
 func (p *Parser) parseIncDecStatement() *ast.IncDecStatement {

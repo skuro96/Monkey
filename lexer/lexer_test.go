@@ -40,6 +40,8 @@ ten -= 10;
 
 true && false;
 true || false;
+
+continue;
 `
 
 	tests := []struct {
@@ -175,6 +177,9 @@ true || false;
 		{token.TRUE, "true"},
 		{token.OR, "||"},
 		{token.FALSE, "false"},
+		{token.SEMICOLON, ";"},
+
+		{token.CONTINUE, "continue"},
 		{token.SEMICOLON, ";"},
 
 		{token.EOF, ""},

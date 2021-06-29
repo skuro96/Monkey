@@ -421,6 +421,14 @@ type IncDecStatement struct {
 	Ident *Identifier
 }
 
+type ContinueStatement struct {
+	Token token.Token
+}
+
+func (cs *ContinueStatement) statementNode()       {}
+func (cs *ContinueStatement) TokenLiteral() string { return cs.Token.Literal }
+func (cs *ContinueStatement) String() string       { return cs.Token.Literal }
+
 func (is *IncDecStatement) statementNode()       {}
 func (is *IncDecStatement) TokenLiteral() string { return is.Token.Literal }
 func (is *IncDecStatement) String() string       { return is.Token.Literal }
