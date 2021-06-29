@@ -127,7 +127,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 	case *ast.HashLiteral:
 		return evalHashLiteral(node, env)
 
-	case *ast.AssignLiteral:
+	case *ast.AssignExpression:
 		_, ok := env.Get(node.Name.Value)
 		if !ok {
 			return newError("identifier does not exist: " + node.Name.Value)
@@ -149,7 +149,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.IncDecStatement:
 		return Eval(
-			&ast.AssignLiteral{
+			&ast.AssignExpression{
 				Name: node.Ident,
 				Value: &ast.InfixExpression{
 					Left:     node.Ident,
@@ -159,7 +159,7 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 
 	case *ast.AssignOperatorExpression:
 		return Eval(
-			&ast.AssignLiteral{
+			&ast.AssignExpression{
 				Name: node.Left,
 				Value: &ast.InfixExpression{
 					Left:     node.Left,
@@ -169,7 +169,6 @@ func Eval(node ast.Node, env *object.Environment) object.Object {
 			},
 			env,
 		)
-
 	}
 	return nil
 }

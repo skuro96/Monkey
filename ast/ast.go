@@ -368,17 +368,17 @@ func (ml *MacroLiteral) String() string {
 	return out.String()
 }
 
-type AssignLiteral struct {
+type AssignExpression struct {
 	Token token.Token
 	Name  *Identifier
 	Value Expression
 }
 
-func (as *AssignLiteral) expressionNode() {}
-func (as *AssignLiteral) TokenLiteral() string {
+func (as *AssignExpression) expressionNode() {}
+func (as *AssignExpression) TokenLiteral() string {
 	return as.Token.Literal
 }
-func (as *AssignLiteral) String() string {
+func (as *AssignExpression) String() string {
 	var out bytes.Buffer
 
 	out.WriteString("(")

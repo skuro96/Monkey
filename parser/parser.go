@@ -102,7 +102,7 @@ func New(l *lexer.Lexer) *Parser {
 	p.registerInfix(token.GT, p.parseInfixExpression)
 	p.registerInfix(token.LPAREN, p.parseCallExpression)
 	p.registerInfix(token.LBRACKET, p.parseIndexExpression)
-	p.registerInfix(token.ASSIGN, p.parseAssignLiteral)
+	p.registerInfix(token.ASSIGN, p.parseAssignExpression)
 	p.registerInfix(token.ASSIGN_ADD, p.parseAssignOperationStatement)
 	p.registerInfix(token.ASSIGN_SUB, p.parseAssignOperationStatement)
 	p.registerInfix(token.ASSIGN_MUL, p.parseAssignOperationStatement)
@@ -534,13 +534,13 @@ func (p *Parser) parseMacroLiteral() ast.Expression {
 	return lit
 }
 
-func (p *Parser) parseAssignLiteral(left ast.Expression) ast.Expression {
+func (p *Parser) parseAssignExpression(left ast.Expression) ast.Expression {
 	ident, ok := left.(*ast.Identifier)
 	if !ok {
 		return nil
 	}
 
-	assign := &ast.AssignLiteral{Token: p.curToken, Name: ident}
+	assign := &ast.AssignExpression{Token: p.curToken, Name: ident}
 
 	p.nextToken()
 
